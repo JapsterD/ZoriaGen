@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+.next/
+out/
+build/
+
+# Environment & secrets (never commit!)
+.env
+.env.local
+.env.*.local
+
+# Allow .env.example (documentation)
+!.env.example
+
+# OS
+.DS_Store
+*.pem
+
+# Logs & debug
+*.log
+npm-debug.log*
+yarn-debug.log*
+.pnpm-debug.log*
+
+# Migration database
+migration/migrations.db
+migration/migrations.db-*
+
+# User data (created at runtime)
+zoria-gen/data/
+zoria-gen/public/uploads/
+
+# Vercel
+.vercel
+
+# Root-level junk (saved web artifacts, etc.)
+/*.js
+/*.css
+/*.html
+/js
+/stripe.js

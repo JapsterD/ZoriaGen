@@ -1,0 +1,5 @@
+node_modules/
+.env
+migrations.db
+migrations.db-wal
+migrations.db-shm

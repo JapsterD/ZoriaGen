@@ -1,0 +1,3463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Zoria Gem Hunter - Zoria</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="main.css?v=15" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/" rel="preconnect">
+    <link href="https://fonts.gstatic.com/" rel="preconnect" crossorigin="anonymous">
+    <script src="webfont.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="css" media="all">
+    <link href="hunter-icon.png" rel="shortcut icon" type="image/x-icon">
+    <link href="hunter-icon.png" rel="apple-touch-icon">
+    <script type="text/javascript">
+        WebFont.load({
+            google: {
+                families: ["Zen Dots:regular", "Oxanium:200,300,regular,500,600,700,800"]
+            }
+        });
+    </script>
+    <link href="hunter-icon.png" rel="shortcut icon" type="image/x-icon">
+    <link href="hunter-icon.png" rel="apple-touch-icon">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: #0B0E11;
+            font-family: 'Oxanium', sans-serif;
+            color: #EAECEF;
+            overflow-x: hidden;
+        }
+
+        /* Background gradient - Dark elegant style */
+        .blurry_background {
+            z-index: 1;
+            background: radial-gradient(ellipse at 30% 20%, rgba(240, 185, 11, 0.12) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 80%, rgba(243, 186, 47, 0.08) 0%, transparent 50%),
+                        linear-gradient(180deg, #0B0E11 0%, #1a1d21 50%, #0B0E11 100%);
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            inset: 0%;
+        }
+
+        /* Blobs - Subtle dark style */
+        .blob_1 {
+            z-index: 2;
+            opacity: 0.2;
+            filter: blur(100px);
+            background: radial-gradient(circle, #F0B90B 0%, #F3BA2F 50%, transparent 70%);
+            border-radius: 50%;
+            width: 45vh;
+            height: 45vh;
+            position: absolute;
+            inset: -5% 0% auto auto;
+        }
+
+        .blob_2 {
+            z-index: 1;
+            opacity: 0.12;
+            filter: blur(80px);
+            background: radial-gradient(circle, #F3BA2F 0%, #F0B90B 50%, transparent 70%);
+            border-radius: 50%;
+            width: 50vh;
+            height: 50vh;
+            position: absolute;
+            inset: auto 10% -5% auto;
+        }
+
+        .blob_3 {
+            z-index: 1;
+            opacity: 0.15;
+            filter: blur(100px);
+            background: radial-gradient(circle, #F0B90B 0%, #FCD535 50%, transparent 70%);
+            border-radius: 35%;
+            width: 35vh;
+            height: 35vh;
+            position: absolute;
+            inset: -5% auto auto 5%;
+        }
+
+        .blob_4 {
+            z-index: 2;
+            opacity: 0.1;
+            filter: blur(90px);
+            background: radial-gradient(circle, #FCD535 0%, #F0B90B 50%, transparent 70%);
+            border-radius: 50%;
+            width: 30vh;
+            height: 30vh;
+            position: absolute;
+            inset: auto auto -5% 10%;
+        }
+
+        .blob_5 {
+            z-index: 2;
+            opacity: 0.12;
+            filter: blur(100px);
+            background: radial-gradient(circle, #F3BA2F 0%, #FCD535 50%, transparent 70%);
+            border-radius: 50%;
+            width: 25vh;
+            height: 25vh;
+            position: absolute;
+            top: 40%;
+            bottom: 0%;
+            left: 50%;
+        }
+
+        .page-container {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            padding: 30px;
+        }
+
+        /* Header navigation */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-left: 4px;
+        }
+
+        .logo-link {
+            text-decoration: none;
+            overflow: visible;
+        }
+
+        .logo {
+            font-family: 'Zen Dots', sans-serif;
+            font-size: 28px;
+            padding: 4px 8px 4px 12px;
+            display: inline-block;
+            background: linear-gradient(90deg, #F0B90B 0%, #FCD535 50%, #F0B90B 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(240, 185, 11, 0.3));
+            transition: filter 0.3s ease;
+            overflow: visible;
+            box-sizing: content-box;
+        }
+        
+        .logo:hover {
+            filter: drop-shadow(0 0 15px rgba(240, 185, 11, 0.5));
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, rgba(20, 24, 28, 0.95) 0%, rgba(11, 14, 17, 0.98) 100%);
+            border: 1px solid rgba(240, 185, 11, 0.4);
+            color: #F0B90B;
+            padding: 12px 20px;
+            font-family: 'Oxanium', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 15px rgba(240, 185, 11, 0.05);
+            backdrop-filter: blur(20px);
+        }
+
+        .nav-btn::before {
+            display: none;
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(135deg, rgba(30, 35, 41, 0.95) 0%, rgba(20, 24, 28, 0.98) 100%);
+            border-color: rgba(240, 185, 11, 0.6);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 20px rgba(240, 185, 11, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Zoria Token Dashboard — site style (gold), symmetric left + right */
+        .zoria-dashboard-wrap {
+            position: relative;
+            width: 100%;
+            max-width: 1350px;
+            margin: 0 auto 30px;
+            z-index: 1;
+            animation: zoria-block-fade-in 0.6s ease-out forwards;
+        }
+
+        @keyframes zoria-block-fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .zoria-dashboard {
+            background: linear-gradient(135deg, rgba(20, 24, 28, 0.95) 0%, rgba(11, 14, 17, 0.98) 100%);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 2px solid rgba(240, 185, 11, 0.35);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.55), 0 0 40px rgba(240, 185, 11, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+            animation: zoria-glow-pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes zoria-glow-pulse {
+            0%, 100% { box-shadow: 0 24px 64px rgba(0, 0, 0, 0.55), 0 0 40px rgba(240, 185, 11, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.04); }
+            50% { box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5), 0 0 50px rgba(240, 185, 11, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.05); }
+        }
+
+        .zoria-dashboard-row {
+            display: flex;
+            flex-wrap: wrap;
+            min-height: 420px;
+        }
+
+        .zoria-dashboard-chart-col,
+        .zoria-dashboard-trades-col {
+            min-height: 0;
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .zoria-dashboard-chart-col {
+            flex: 1 1 62%;
+            min-width: 280px;
+            width: 0;
+            border-right: 2px solid rgba(240, 185, 11, 0.2);
+            border-radius: 0 0 0 22px;
+        }
+
+        .zoria-dashboard-title-section {
+            text-align: center;
+            margin-bottom: 18px;
+            animation: zoria-title-fade-in 0.5s ease-out 0.15s both;
+        }
+
+        @keyframes zoria-title-fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .zoria-dashboard-title-section .zoria-dashboard-title {
+            font-family: 'Zen Dots', sans-serif;
+            font-size: 28px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            margin: 0 0 10px 0;
+            background: linear-gradient(90deg, #F0B90B 0%, #FCD535 50%, #F0B90B 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(240, 185, 11, 0.3));
+        }
+
+        .zoria-dashboard-title-section .zoria-dashboard-contract-wrap {
+            justify-content: center;
+        }
+
+        .zoria-dashboard-contract-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .zoria-dashboard-contract {
+            font-family: 'Oxanium', monospace;
+            font-size: 11px;
+            color: rgba(234, 236, 239, 0.7);
+            background: rgba(0, 0, 0, 0.25);
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: 1px solid rgba(240, 185, 11, 0.2);
+            cursor: pointer;
+            user-select: all;
+            letter-spacing: 0.5px;
+        }
+
+        .zoria-dashboard-contract:hover {
+            color: rgba(234, 236, 239, 0.95);
+            border-color: rgba(240, 185, 11, 0.5);
+        }
+
+        .zoria-dashboard-copy {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 10px;
+            font-family: 'Oxanium', sans-serif;
+            font-size: 11px;
+            color: #F0B90B;
+            background: transparent;
+            border: 1px solid rgba(240, 185, 11, 0.5);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .zoria-dashboard-copy:hover {
+            background: rgba(240, 185, 11, 0.15);
+            color: #FCD535;
+        }
+
+        .zoria-dashboard-copy.copied .zoria-copy-text {
+            color: #22c55e;
+        }
+
+        .zoria-dashboard-trades-col {
+            flex: 0 0 38%;
+            min-width: 260px;
+            border-left: 2px solid rgba(240, 185, 11, 0.2);
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 0 0 22px 0;
+        }
+
+        .zoria-dashboard-section {
+            padding: 8px 10px;
+            border: 1px solid rgba(240, 185, 11, 0.15);
+            border-radius: 14px;
+            background: rgba(0, 0, 0, 0.2);
+            animation: zoria-section-fade-in 0.5s ease-out both;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .zoria-dashboard-chart-col .zoria-dashboard-section {
+            animation-delay: 0.2s;
+        }
+
+        .zoria-dashboard-trades-col .zoria-dashboard-section {
+            animation-delay: 0.25s;
+        }
+
+        @keyframes zoria-section-fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .zoria-dashboard-metrics-bar {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 16px;
+            border-bottom: 2px solid rgba(240, 185, 11, 0.2);
+            background: rgba(0, 0, 0, 0.25);
+        }
+
+        .zoria-dashboard-metrics-bar .zoria-metrics-grid {
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 6px 12px;
+            gap: 0 12px;
+        }
+
+        .zoria-section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+        }
+
+        .zoria-section-header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .zoria-section-title {
+            font-family: 'Zen Dots', sans-serif;
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            color: #F0B90B;
+            margin: 0;
+            text-shadow: 0 0 12px rgba(240, 185, 11, 0.3);
+        }
+
+        .zoria-live-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: #22c55e;
+            color: #fff;
+            font-family: 'Oxanium', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .zoria-chart-info-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px 20px;
+            margin-bottom: 10px;
+            padding: 8px 0;
+            font-family: 'Oxanium', sans-serif;
+            font-size: 12px;
+            color: rgba(234, 236, 239, 0.75);
+        }
+
+        .zoria-metrics-grid {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            gap: 0 8px;
+            margin: 0;
+            padding: 3px 8px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            border: 1px solid rgba(240, 185, 11, 0.12);
+            overflow-x: auto;
+            min-width: 0;
+        }
+
+        .zoria-metric {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 3px;
+            padding: 0;
+            background: none;
+            border: none;
+            border-radius: 0;
+            text-align: left;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .zoria-metric:hover {
+            border: none;
+            box-shadow: none;
+        }
+
+        .zoria-metric-label {
+            display: inline;
+            font-size: 8px;
+            font-weight: 500;
+            text-transform: none;
+            letter-spacing: 0;
+            color: rgba(240, 185, 11, 0.75);
+            margin-bottom: 0;
+        }
+
+        .zoria-metric-value {
+            font-size: 9px;
+            font-weight: 600;
+            color: #EAECEF;
+        }
+
+        .zoria-metric-value.positive { color: #22c55e; }
+        .zoria-metric-value.negative { color: #ef4444; }
+        .zoria-metric-value.accent { color: #F0B90B; }
+
+        .zoria-metric-divider {
+            width: 1px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            flex-shrink: 0;
+        }
+
+        .zoria-chart-info-bar .pair-name {
+            color: #F0B90B;
+            font-weight: 600;
+        }
+
+        .zoria-chart-info-bar .exchange {
+            display: none;
+        }
+
+        .zoria-chart-info-bar .volume-24h,
+        .zoria-chart-info-bar .price-usd {
+            font-weight: 600;
+            color: #EAECEF;
+        }
+
+        .zoria-chart-info-bar .price-change {
+            font-weight: 600;
+        }
+
+        .zoria-chart-info-bar .price-change.positive { color: #22c55e; }
+        .zoria-chart-info-bar .price-change.negative { color: #ef4444; }
+
+        .zoria-chart-info-bar .market-cap {
+            font-weight: 600;
+            color: #EAECEF;
+        }
+
+        .zoria-chart-wrap {
+            position: relative;
+            flex: 1;
+            min-height: 320px;
+            background: rgba(10, 10, 10, 0.6);
+            border: 1px solid rgba(240, 185, 11, 0.12);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .zoria-chart-wrap iframe {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            pointer-events: auto;
+        }
+
+        .zoria-trades-panel {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .zoria-trades-table-wrap {
+            flex: 1;
+            overflow-x: auto;
+            overflow-y: auto;
+            max-height: 340px;
+            border-radius: 12px;
+            border: 1px solid rgba(240, 185, 11, 0.12);
+            background: rgba(0, 0, 0, 0.25);
+        }
+
+        .zoria-trades-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Oxanium', sans-serif;
+            font-size: 12px;
+        }
+
+        .zoria-trades-table th {
+            text-align: left;
+            padding: 10px 12px;
+            color: rgba(240, 185, 11, 0.7);
+            font-weight: 600;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid rgba(240, 185, 11, 0.15);
+        }
+
+        .zoria-trades-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: rgba(234, 236, 239, 0.9);
+        }
+
+        .zoria-trades-table tbody tr:hover {
+            background: rgba(240, 185, 11, 0.06);
+        }
+
+        .zoria-trade-type {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .zoria-trade-type.buy { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+        .zoria-trade-type.sell { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+
+        .zoria-trades-table tbody tr.zoria-buy-20 { background: rgba(134, 239, 172, 0.15); }
+        .zoria-trades-table tbody tr.zoria-buy-20:hover { background: rgba(134, 239, 172, 0.25); }
+        .zoria-trades-table tbody tr.zoria-buy-50 { background: rgba(34, 197, 94, 0.2); }
+        .zoria-trades-table tbody tr.zoria-buy-50:hover { background: rgba(34, 197, 94, 0.3); }
+        .zoria-trades-table tbody tr.zoria-buy-100 { background: rgba(22, 163, 74, 0.35); }
+        .zoria-trades-table tbody tr.zoria-buy-100:hover { background: rgba(22, 163, 74, 0.45); }
+
+        .zoria-dashboard-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 2px solid rgba(240, 185, 11, 0.2);
+        }
+
+        .zoria-powered-by {
+            font-size: 11px;
+            color: rgba(234, 236, 239, 0.35);
+        }
+
+        .zoria-view-dextools {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 18px;
+            border: 1px solid rgba(240, 185, 11, 0.5);
+            border-radius: 10px;
+            color: #F0B90B;
+            font-family: 'Oxanium', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            text-decoration: none;
+            letter-spacing: 0.3px;
+            transition: all 0.25s ease;
+            transform: translateY(0);
+        }
+
+        .zoria-view-dextools:hover {
+            background: rgba(240, 185, 11, 0.12);
+            border-color: rgba(240, 185, 11, 0.8);
+            box-shadow: 0 0 15px rgba(240, 185, 11, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .zoria-dashboard-section:hover {
+            border-color: rgba(240, 185, 11, 0.25);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .zoria-dashboard-loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 100px;
+            color: rgba(234, 236, 239, 0.6);
+            font-size: 13px;
+        }
+
+        .zoria-trades-loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(240, 185, 11, 0.2);
+            border-top-color: #F0B90B;
+            border-radius: 50%;
+            animation: zoria-spin 0.7s linear infinite;
+        }
+
+        @keyframes zoria-spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 767px) {
+            .zoria-dashboard-row { flex-direction: column; min-height: 0; }
+            .zoria-dashboard-chart-col { border-right: none; border-radius: 0; border-bottom: 2px solid rgba(240, 185, 11, 0.2); padding: 10px; width: 100%; }
+            .zoria-dashboard-trades-col { border-left: none; border-radius: 0; padding: 10px; width: 100%; }
+            .zoria-metrics-grid { gap: 0 6px; padding: 2px 6px; -webkit-overflow-scrolling: touch; }
+            .zoria-metric-divider { height: 6px; }
+            .zoria-metric-label { font-size: 7px; }
+            .zoria-metric-value { font-size: 8px; }
+            .zoria-chart-wrap {
+                min-height: 280px;
+                overflow-x: auto;
+                overflow-y: hidden;
+                -webkit-overflow-scrolling: touch;
+            }
+            .zoria-chart-wrap iframe {
+                min-width: 480px;
+            }
+            .zoria-trades-table-wrap { max-height: 260px; }
+            .zoria-dashboard-footer { flex-direction: column; gap: 8px; text-align: center; padding: 10px; }
+        }
+
+        /* Page title section */
+        .page-title-section {
+            position: relative;
+            z-index: 10; /* Заголовки поверх баннера */
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            font-family: 'Zen Dots', sans-serif;
+            font-size: 32px;
+            margin: 0 0 8px 0;
+            background: linear-gradient(90deg, #F0B90B 0%, #FCD535 50%, #F0B90B 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(240, 185, 11, 0.3));
+        }
+
+        .page-subtitle {
+            color: rgba(234, 236, 239, 0.8);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        /* Controls bar */
+        .controls-bar {
+            position: relative;
+            z-index: 10; /* Поверх баннера */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .controls-left {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .controls-right {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* Time filter buttons */
+        .time-filters {
+            display: flex;
+            background: linear-gradient(135deg, rgba(20, 24, 28, 0.95) 0%, rgba(11, 14, 17, 0.98) 100%);
+            border-radius: 12px;
+            padding: 4px;
+            border: 1px solid rgba(240, 185, 11, 0.25);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(20px);
+        }
+
+        .time-btn {
+            background: transparent;
+            border: none;
+            color: rgba(234, 236, 239, 0.5);
+            padding: 10px 18px;
+            font-family: 'Oxanium', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .time-btn:hover {
+            color: #F0B90B;
+            background: rgba(240, 185, 11, 0.08);
+        }
+
+        .time-btn.active {
+            background: linear-gradient(135deg, #F0B90B 0%, #FCD535 100%);
+            color: #0B0E11;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(240, 185, 11, 0.3);
+        }
+
+        /* View buttons */
+        .view-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, rgba(20, 24, 28, 0.95) 0%, rgba(11, 14, 17, 0.98) 100%);
+            border: 1px solid rgba(240, 185, 11, 0.3);
+            color: #EAECEF;
+            padding: 10px 18px;
+            font-family: 'Oxanium', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(20px);
+        }
+
+        .view-btn:hover {
+            background: linear-gradient(135deg, rgba(25, 29, 33, 0.95) 0%, rgba(15, 18, 22, 0.98) 100%);
+            border-color: rgba(240, 185, 11, 0.5);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(240, 185, 11, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .view-btn svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.3s ease;
+        }
+        
+        .view-btn:hover svg {
+            transform: scale(1.1);
+        }
+
+        /* Toggle switch */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toggle-label {
+            font-size: 13px;
+            color: rgba(234, 236, 239, 0.8);
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            background: rgba(30, 35, 41, 0.8);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .toggle-switch.active {
+            background: linear-gradient(135deg, #F0B90B, #FCD535);
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: #EAECEF;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .toggle-switch.active::after {
+            left: 22px;
+        }
+
+        /* Sort button */
+        .sort-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.8);
+            font-family: 'Oxanium', sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .sort-btn:hover {
+            color: #F0B90B;
+        }
+
+        .sort-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Table container */
+        .table-container {
+            background: linear-gradient(135deg, rgba(11, 14, 17, 0.95) 0%, rgba(20, 24, 28, 0.98) 100%);
+            backdrop-filter: blur(30px) saturate(180%);
+            border-radius: 20px;
+            border: 1px solid rgba(240, 185, 11, 0.2);
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(240, 185, 11, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+            position: relative;
+        }
+        
+        .table-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(240, 185, 11, 0.3), transparent);
+        }
+
+        /* Table styles */
+        .tokens-table {
+            position: relative;
+            z-index: 10; /* Поверх баннера */
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .tokens-table thead {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .tokens-table th {
+            padding: 16px 20px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            white-space: nowrap;
+        }
+
+        .tokens-table th:first-child { min-width: 220px; }
+        .tokens-table th:last-child { min-width: 140px; }
+
+        .tokens-table td {
+            padding: 18px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            vertical-align: middle;
+        }
+
+        .tokens-table tbody tr {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tokens-table tbody tr:hover {
+            background: linear-gradient(90deg, rgba(240, 185, 11, 0.05) 0%, rgba(255, 255, 255, 0.02) 50%, rgba(240, 185, 11, 0.05) 100%);
+        }
+        
+        .tokens-table tbody tr td:first-child {
+            position: relative;
+        }
+        
+        .tokens-table tbody tr td:first-child::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #F0B90B, #FCD535);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .tokens-table tbody tr:hover td:first-child::before {
+            opacity: 0.7;
+        }
+
+        .tokens-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Token info cell */
+        .token-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .token-icon {
+            width: 46px;
+            height: 46px;
+            min-width: 46px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #F0B90B, #FCD535);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 22px;
+            overflow: hidden;
+            flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(240, 185, 11, 0.3), inset 0 -2px 5px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .tokens-table tbody tr:hover .token-icon {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(240, 185, 11, 0.5);
+        }
+
+        .token-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .token-icon-fallback {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            font-size: 22px;
+            line-height: 1;
+        }
+
+        .token-details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .token-name {
+            font-weight: 600;
+            font-size: 15px;
+            color: #fff;
+        }
+
+        .token-address {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .copy-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            padding: 2px;
+            display: flex;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            color: #fff;
+        }
+
+        .copy-btn svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        /* Liquidity cell */
+        .liquidity-value {
+            font-weight: 600;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .liquidity-bnb {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 4px;
+        }
+
+        .bnb-icon {
+            width: 12px;
+            height: 12px;
+        }
+
+        /* Marketcap cell */
+        .marketcap-value {
+            font-weight: 600;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .marketcap-bnb {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 4px;
+        }
+
+        /* Price cell */
+        .price-value {
+            font-weight: 600;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .price-change-small {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .price-change-small.positive {
+            color: #4ade80;
+        }
+
+        .price-change-small.negative {
+            color: #f87171;
+        }
+
+        .price-change-small.infinity {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Price change badges */
+        .price-change-cell {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .change-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .change-badge.live {
+            color: #4ade80;
+            background: rgba(74, 222, 128, 0.1);
+            text-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+        }
+
+        .change-badge.positive {
+            color: #4ade80;
+            background: rgba(74, 222, 128, 0.1);
+            text-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+        }
+
+        .change-badge.negative {
+            color: #f87171;
+            background: rgba(248, 113, 113, 0.1);
+            text-shadow: 0 0 10px rgba(248, 113, 113, 0.5);
+        }
+
+        .change-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Risk score */
+        .risk-score {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .risk-icon {
+            width: 22px;
+            height: 22px;
+            color: #4ade80;
+            filter: drop-shadow(0 0 5px currentColor);
+        }
+
+        .risk-text {
+            color: #4ade80;
+            font-weight: 600;
+            font-size: 13px;
+            text-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+        }
+
+        .risk-text.warning {
+            color: #fbbf24;
+            text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+        }
+
+        .risk-text.danger {
+            color: #f87171;
+            text-shadow: 0 0 10px rgba(248, 113, 113, 0.5);
+        }
+
+        /* Actions cell */
+        .actions-cell {
+            display: flex;
+            gap: 12px;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-family: 'Oxanium', sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .action-btn:hover {
+            color: #fff;
+        }
+
+        .action-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .action-btn img {
+            width: 16px;
+            height: 16px;
+            object-fit: contain;
+        }
+
+        .chart-btn {
+            background: linear-gradient(135deg, rgba(20, 24, 28, 0.95) 0%, rgba(11, 14, 17, 0.98) 100%);
+            border: 1px solid rgba(240, 185, 11, 0.4);
+            color: #F0B90B;
+            padding: 8px 14px;
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .chart-btn:hover {
+            background: linear-gradient(135deg, #F0B90B 0%, #FCD535 100%);
+            color: #0B0E11;
+            border-color: #F0B90B;
+            box-shadow: 0 4px 15px rgba(240, 185, 11, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .swap-btn {
+            background: linear-gradient(135deg, #F0B90B 0%, #FCD535 100%);
+            border: 1px solid #F0B90B;
+            color: #0B0E11;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(240, 185, 11, 0.3);
+        }
+
+        .swap-btn:hover {
+            background: linear-gradient(135deg, #FCD535 0%, #FFFFFF 50%, #FCD535 100%);
+            box-shadow: 0 8px 25px rgba(240, 185, 11, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Loading state */
+        .loading {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 80px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(240, 185, 11, 0.15);
+            border-top-color: #F0B90B;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            box-shadow: 0 0 15px rgba(240, 185, 11, 0.2);
+            position: relative;
+        }
+        
+        .spinner::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border: 2px solid transparent;
+            border-top-color: rgba(252, 213, 53, 0.5);
+            border-radius: 50%;
+            animation: spin 2s linear infinite reverse;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .empty-state svg {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        /* Responsive */
+        @media screen and (max-width: 1200px) {
+            .tokens-table th,
+            .tokens-table td {
+                padding: 14px 12px;
+            }
+        }
+
+        @media screen and (max-width: 991px) {
+            .page-container {
+                padding: 20px;
+            }
+
+            .table-container {
+                overflow-x: auto;
+            }
+
+            .tokens-table {
+                min-width: 1000px;
+            }
+
+            .page-title {
+                font-size: 26px;
+            }
+        }
+
+        @media screen and (max-width: 767px) {
+            /* Скрыть баннер на мобильной версии */
+            .gem-banner-container {
+                display: none;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                align-items: flex-start;
+            }
+
+            .controls-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .controls-left,
+            .controls-right {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .page-title {
+                font-size: 22px;
+            }
+
+            .nav-buttons {
+                flex-wrap: wrap;
+            }
+
+            .nav-btn {
+                padding: 10px 16px;
+                font-size: 12px;
+            }
+        }
+
+        /* Highlighted liquidity */
+        .liquidity-highlight {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        /* Volume info */
+        .volume-info {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 4px;
+        }
+
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, rgba(240, 185, 11, 0.95) 0%, rgba(252, 213, 53, 0.95) 100%);
+            color: #0B0E11;
+            padding: 16px 32px;
+            border-radius: 14px;
+            font-family: 'Oxanium', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 10000;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(240, 185, 11, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast.error {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.95), rgba(185, 28, 28, 0.95));
+            color: white;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(239, 68, 68, 0.4);
+        }
+
+        /* Copy button states */
+        .copy-btn {
+            position: relative;
+        }
+
+        .copy-btn.copied svg {
+            color: #4ade80;
+        }
+
+        .copy-btn.copied::after {
+            content: '✓';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(74, 222, 128, 0.9);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            animation: fadeInOut 1.5s ease;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateX(-50%) translateY(5px); }
+            20% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            80% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* Risk icon colors */
+        .risk-icon.safe {
+            color: #4ade80;
+        }
+
+        .risk-icon.warning {
+            color: #fbbf24;
+        }
+
+        .risk-icon.danger {
+            color: #f87171;
+        }
+
+        .risk-text.safe {
+            color: #4ade80;
+        }
+
+        /* Neutral price change */
+        .change-badge.neutral {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Row animation */
+        .token-row {
+            animation: rowFadeIn 0.4s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes rowFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Refresh button */
+        .refresh-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, rgba(20, 24, 28, 0.95) 0%, rgba(11, 14, 17, 0.98) 100%);
+            border: 1px solid rgba(240, 185, 11, 0.4);
+            color: #F0B90B;
+            padding: 10px 20px;
+            font-family: 'Oxanium', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(20px);
+        }
+
+        .refresh-btn:hover {
+            background: linear-gradient(135deg, #F0B90B 0%, #FCD535 100%);
+            color: #0B0E11;
+            border-color: #F0B90B;
+            box-shadow: 0 6px 20px rgba(240, 185, 11, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .refresh-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .refresh-btn svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .refresh-btn:hover svg {
+            transform: rotate(360deg);
+        }
+
+        /* Refresh info */
+        .refresh-info {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-left: 10px;
+        }
+
+        /* Token icon image */
+        .token-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        /* Price up/down arrows */
+        .change-badge.positive::before {
+            content: '↑ ';
+        }
+
+        .change-badge.negative::before {
+            content: '↓ ';
+        }
+
+        /* Table header sorting */
+        .tokens-table th {
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .tokens-table th:hover {
+            color: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Loading pulse animation */
+        .loading p {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* Auto-refresh indicator */
+        .auto-refresh-indicator {
+            position: relative;
+            z-index: 10; /* Поверх баннера */
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .auto-refresh-indicator .dot {
+            width: 6px;
+            height: 6px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Mobile improvements */
+        @media screen and (max-width: 767px) {
+            .toast {
+                width: calc(100% - 40px);
+                text-align: center;
+            }
+
+            .refresh-info {
+                display: none;
+            }
+        }
+        
+        /* Premium Particles System */
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: radial-gradient(circle, rgba(252, 213, 53, 0.6) 0%, rgba(240, 185, 11, 0.3) 50%, transparent 100%);
+            border-radius: 50%;
+            opacity: 0;
+            animation: floatParticle 25s ease-in-out infinite;
+            box-shadow: 0 0 5px rgba(240, 185, 11, 0.3), 0 0 10px rgba(240, 185, 11, 0.15);
+        }
+        
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 28s; width: 2px; height: 2px; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 3s; animation-duration: 25s; width: 3px; height: 3px; }
+        .particle:nth-child(3) { left: 30%; animation-delay: 6s; animation-duration: 30s; width: 2px; height: 2px; }
+        .particle:nth-child(4) { left: 40%; animation-delay: 2s; animation-duration: 22s; width: 3px; height: 3px; }
+        .particle:nth-child(5) { left: 50%; animation-delay: 5s; animation-duration: 32s; width: 4px; height: 4px; }
+        .particle:nth-child(6) { left: 60%; animation-delay: 8s; animation-duration: 27s; width: 2px; height: 2px; }
+        .particle:nth-child(7) { left: 70%; animation-delay: 1s; animation-duration: 29s; width: 3px; height: 3px; }
+        .particle:nth-child(8) { left: 80%; animation-delay: 4s; animation-duration: 24s; width: 3px; height: 3px; }
+        
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.4;
+            }
+            85% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Selection color */
+        ::selection {
+            background: rgba(240, 185, 11, 0.3);
+            color: #FFFFFF;
+        }
+        
+        ::-moz-selection {
+            background: rgba(240, 185, 11, 0.3);
+            color: #FFFFFF;
+        }
+        
+        /* Animated blobs */
+        @keyframes blobFloat {
+            0%, 100% { transform: translateY(0) translateX(0) scale(1); }
+            25% { transform: translateY(-30px) translateX(15px) scale(1.05); }
+            50% { transform: translateY(-15px) translateX(-10px) scale(0.95); }
+            75% { transform: translateY(-40px) translateX(20px) scale(1.02); }
+        }
+        
+        .blob_1, .blob_2, .blob_3, .blob_4, .blob_5 {
+            animation: blobFloat 20s ease-in-out infinite;
+        }
+        
+        .blob_2 { animation-delay: -5s; animation-duration: 25s; }
+        .blob_3 { animation-delay: -10s; animation-duration: 22s; }
+        .blob_4 { animation-delay: -3s; animation-duration: 18s; }
+        .blob_5 { animation-delay: -8s; animation-duration: 24s; }
+    </style>
+</head>
+
+<body>
+    <!-- Premium Particle Effects -->
+    <div class="particles-container">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    
+    <!-- Background - exact same structure as index.html -->
+    <div class="blurry_background">
+        <div class="blob_1"></div>
+        <div class="blob_2"></div>
+        <div class="blob_3"></div>
+        <div class="blob_4"></div>
+        <div class="blob_5"></div>
+    </div>
+
+    <div class="page-container">
+        <!-- Header -->
+        <header class="header">
+            <a href="https://ai16zoria.xyz" class="logo-link">
+                <div class="logo">$ZORIA</div>
+            </a>
+            <nav class="nav-buttons">
+                <a href="https://pancakeswap.finance/swap" target="_blank" class="nav-btn">BUY $ZORIA</a>
+                <a href="https://x.com/ai16zoria" target="_blank" class="nav-btn">X</a>
+                <a href="https://ai16zoria.xyz" class="nav-btn">HOME</a>
+            </nav>
+        </header>
+
+        <!-- Zoria Token Dashboard (ex zoria banner) -->
+        <div class="zoria-dashboard-wrap">
+            <div class="zoria-dashboard-title-section">
+                <h1 class="zoria-dashboard-title">ZORIA DASHBOARD</h1>
+                <div class="zoria-dashboard-contract-wrap">
+                    <code class="zoria-dashboard-contract" id="zoriaContractAddress" title="Click to copy">0x0b71296d09b5aa459c6c79a425e41aa9179d7777</code>
+                    <button type="button" class="zoria-dashboard-copy" id="zoriaContractCopy" title="Copy address" aria-label="Copy contract address">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                        <span class="zoria-copy-text">Copy</span>
+                    </button>
+                </div>
+            </div>
+            <div class="zoria-dashboard" id="zoriaDashboard">
+                <div class="zoria-dashboard-metrics-bar">
+                    <div class="zoria-metrics-grid" id="zoriaMetricsGrid">
+                        <div class="zoria-metric"><span class="zoria-metric-label">Pair</span><span class="zoria-metric-value accent" id="zoriaPairName">ZORIA/WBNB</span></div>
+                        <span class="zoria-metric-divider"></span>
+                        <div class="zoria-metric"><span class="zoria-metric-label">Price</span><span class="zoria-metric-value" id="zoriaPriceUsd">—</span></div>
+                        <span class="zoria-metric-divider"></span>
+                        <div class="zoria-metric"><span class="zoria-metric-label">1h</span><span class="zoria-metric-value" id="zoriaPriceChange1h">—</span></div>
+                        <span class="zoria-metric-divider"></span>
+                        <div class="zoria-metric"><span class="zoria-metric-label">6h</span><span class="zoria-metric-value" id="zoriaPriceChange6h">—</span></div>
+                        <span class="zoria-metric-divider"></span>
+                        <div class="zoria-metric"><span class="zoria-metric-label">24h</span><span class="zoria-metric-value" id="zoriaPriceChange">—</span></div>
+                        <span class="zoria-metric-divider"></span>
+                        <div class="zoria-metric"><span class="zoria-metric-label">Vol</span><span class="zoria-metric-value" id="zoriaVolume24h">—</span></div>
+                        <span class="zoria-metric-divider"></span>
+                        <div class="zoria-metric"><span class="zoria-metric-label">MCap</span><span class="zoria-metric-value" id="zoriaMarketCap">—</span></div>
+                    </div>
+                </div>
+                <div class="zoria-dashboard-row">
+                    <div class="zoria-dashboard-chart-col">
+                        <div class="zoria-dashboard-section">
+                            <div class="zoria-section-header">
+                                <div class="zoria-section-header-left">
+                                    <h2 class="zoria-section-title">PRICE CHART</h2>
+                                    <span class="zoria-live-badge">LIVE</span>
+                                </div>
+                            </div>
+                            <div class="zoria-chart-wrap">
+                                <iframe id="zoriaChartIframe" src="https://dexscreener.com/bsc/0xc99974308aab69e008ccc3ea4fa794d406fccc76?embed=1&amp;theme=dark&amp;chartTheme=dark&amp;chartLeftToolbar=0&amp;chartType=usd&amp;loadChartSettings=0&amp;info=0&amp;trades=0" title="ZORIA price chart"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="zoria-dashboard-trades-col">
+                        <div class="zoria-dashboard-section zoria-trades-panel">
+                            <div class="zoria-section-header">
+                                <h2 class="zoria-section-title">RECENT TRADES</h2>
+                                <span class="zoria-live-badge">LIVE</span>
+                            </div>
+                            <div class="zoria-trades-table-wrap">
+                                <table class="zoria-trades-table">
+                                    <thead>
+                                        <tr>
+                                            <th>TYPE</th>
+                                            <th>AMOUNT</th>
+                                            <th>VALUE (USD)</th>
+                                            <th>TX</th>
+                                            <th>AGE</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="zoriaTradesBody">
+                                        <tr><td colspan="5" class="zoria-dashboard-loading"><span class="zoria-trades-loading-spinner"></span> Loading…</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="zoria-dashboard-footer">
+                    <span class="zoria-powered-by"></span>
+                    <a href="https://dexscreener.com/bsc/0xc99974308aab69e008ccc3ea4fa794d406fccc76" target="_blank" rel="noopener" class="zoria-view-dextools">VIEW ALL TRADES</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page title -->
+        <div class="page-title-section">
+            <h1 class="page-title">Zoria Gem Hunter</h1>
+            <p class="page-subtitle">Discover hidden gems on BSC blockchain (up to $10M market cap)</p>
+        </div>
+
+        <!-- Controls bar -->
+        <div class="controls-bar">
+            <div class="controls-left">
+                <div class="time-filters">
+                    <button class="time-btn" data-time="5m">5m</button>
+                    <button class="time-btn active" data-time="1h">1h</button>
+                    <button class="time-btn" data-time="6h">6h</button>
+                    <button class="time-btn" data-time="24h">24h</button>
+                </div>
+                <button class="view-btn" id="gridBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"/>
+                        <rect x="14" y="3" width="7" height="7"/>
+                        <rect x="3" y="14" width="7" height="7"/>
+                        <rect x="14" y="14" width="7" height="7"/>
+                    </svg>
+                    Grid
+                </button>
+                <button class="view-btn" id="filterBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+                    </svg>
+                    Filter
+                </button>
+            </div>
+            <div class="controls-right">
+                <div class="toggle-container">
+                    <span class="toggle-label">High Mcap</span>
+                    <div class="toggle-switch" id="highMcapToggle"></div>
+                </div>
+                <button class="sort-btn" id="sortBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M7 15l5 5 5-5"/>
+                        <path d="M7 9l5-5 5 5"/>
+                    </svg>
+                    Price Change
+                </button>
+                <button class="refresh-btn" id="refreshBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="23 4 23 10 17 10"/>
+                        <polyline points="1 20 1 14 7 14"/>
+                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                    </svg>
+                    Refresh
+                </button>
+                <div class="auto-refresh-indicator">
+                    <span class="dot"></span>
+                    <span>Auto-refresh: 120s</span>
+                </div>
+                <span class="refresh-info" id="refreshInfo"></span>
+                <span class="data-source-badge" id="dataSource" style="margin-left: 15px; padding: 4px 12px; background: rgba(255,255,255,0.1); border-radius: 12px; font-size: 11px; color: rgba(255,255,255,0.7);"></span>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="table-container">
+            <table class="tokens-table">
+                <thead>
+                    <tr>
+                        <th>Token Info</th>
+                        <th>Liquidity</th>
+                        <th>Marketcap</th>
+                        <th>Price</th>
+                        <th>Price Change</th>
+                        <th>Risk Score</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tokensTableBody">
+                    <tr>
+                        <td colspan="7">
+                            <div class="loading">
+                                <div class="spinner"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="jquery-3.5.1.min.dc5e7f18c8.js" type="text/javascript"></script>
+    <script>
+        // ============================================
+        // CONFIGURATION
+        // ============================================
+        const CONFIG = {
+            refreshInterval: 120000, // Auto-refresh every 120 seconds (2 minutes)
+            bnbPrice: 0, // Will be fetched dynamically
+            timeFrames: {
+                '5m': 'h1', // DexScreener uses h1, h6, h24 for time frames
+                '15m': 'h1',
+                '30m': 'h1',
+                '1h': 'h1'
+            },
+            coinrankingApiKey: 'coinrankinge86487883fc8c746a82fef75f18097b8d51ea41fe772d31c'
+        };
+
+        // State management
+        let currentTokens = [];
+        let currentTimeFrame = '1h';
+        let sortByDate = false; // false = sort by price change, true = sort by creation date
+        let sortNewest = true; // true = newest first, false = oldest first (only used when sortByDate is true)
+        let refreshTimer = null;
+        let isLoading = false;
+        let filterHighMcap = false; // Toggle: false = Low cap (<$1M), true = High cap ($1M-$10M)
+        let currentDataSource = ''; // Track current data source
+
+        // ============================================
+        // API FUNCTIONS
+        // ============================================
+        
+        // Fetch BNB price
+        async function fetchBnbPrice() {
+            try {
+                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=binancecoin&vs_currencies=usd');
+                const data = await response.json();
+                CONFIG.bnbPrice = data.binancecoin?.usd || 600;
+            } catch (error) {
+                console.error('Error fetching BNB price:', error);
+                CONFIG.bnbPrice = 600; // Fallback price
+            }
+        }
+
+        // ============================================
+        // LOW-CAP GEM HUNTER
+        // ============================================
+
+        // Main function: Coinranking API Integration
+        async function fetchLowCapGems() {
+            if (isLoading) return;
+            isLoading = true;
+            
+            showLoading();
+            
+            try {
+                // Fetch BNB price first
+                await fetchBnbPrice();
+                
+                const modeLabel = filterHighMcap ? 'high-cap gems ($1M-$10M)' : 'low-cap gems (<$1M)';
+                console.log(`💎 Fetching ${modeLabel}...`);
+                
+                // Try DexScreener with appropriate mode
+                try {
+                    const tokens = await fetchLowCapFromDexScreener(filterHighMcap);
+                    if (tokens && tokens.length > 0) {
+                        console.log('✅ DexScreener success:', tokens.length, 'tokens');
+                        currentTokens = tokens;
+                        currentDataSource = filterHighMcap ? 'DexScreener High Cap' : 'DexScreener Low Cap';
+                        const badgeLabel = filterHighMcap ? '💎 High Mcap ($1M-$10M)' : '💎 Low Cap (<$1M)';
+                        updateDataSourceBadge(badgeLabel);
+                        renderTable(currentTokens);
+                        updateLastRefreshTime();
+                        return;
+                    }
+                } catch (e) {
+                    console.log('❌ DexScreener failed:', e.message);
+                }
+                
+                // Fallback: Multi-source approach
+                console.log('🔥 Fetching from multiple sources as fallback...');
+                
+                const sources = await Promise.allSettled([
+                    fetchGeckoTerminalTrending().catch(e => { console.log('GeckoTerminal trending error:', e.message); return []; }),
+                    fetchGeckoTerminalNew().catch(e => { console.log('GeckoTerminal new error:', e.message); return []; }),
+                    fetchDexScreenerTrending().catch(e => { console.log('DexScreener error:', e.message); return []; })
+                ]);
+                
+                // Combine all tokens
+                let allTokens = [];
+                sources.forEach((result, index) => {
+                    if (result.status === 'fulfilled' && result.value.length > 0) {
+                        console.log(`✅ Source ${index + 1}: ${result.value.length} tokens`);
+                        allTokens.push(...result.value);
+                    }
+                });
+                
+                if (allTokens.length === 0) {
+                    console.log('⚠️ No tokens from any source, trying fallback...');
+                    await fetchPopularBscPairs();
+                    return;
+                }
+                
+                // Remove duplicates and rank
+                const uniqueTokens = removeDuplicateTokens(allTokens);
+                const rankedTokens = advancedRanking(uniqueTokens);
+                
+                currentTokens = rankedTokens.slice(0, 50);
+                currentDataSource = 'Advanced Algorithm';
+                updateDataSourceBadge('🚀 Advanced Ranking');
+                
+                console.log(`✅ Top ${currentTokens.length} low-cap gems selected`);
+                renderTable(currentTokens);
+                updateLastRefreshTime();
+                
+            } catch (error) {
+                console.error('❌ All methods failed:', error);
+                showError('Failed to load trending tokens. Please try again.');
+            } finally {
+                isLoading = false;
+            }
+        }
+        
+        // Remove duplicate tokens
+        function removeDuplicateTokens(tokens) {
+            const seen = new Map();
+            const unique = [];
+            
+            tokens.forEach(token => {
+                const addr = token.fullAddress?.toLowerCase();
+                if (!addr || seen.has(addr)) return;
+                
+                seen.set(addr, true);
+                unique.push(token);
+            });
+            
+            return unique;
+        }
+        
+        // Advanced ranking algorithm with multiple factors
+        function advancedRanking(tokens) {
+            return tokens.map(token => {
+                let score = 0;
+                
+                const volume = token.volume24h || 0;
+                const liquidity = token.liquidity?.usd || 0;
+                const mcap = token.marketcap?.usd || 0;
+                const priceChange24h = parseFloat(token.priceChange24h) || 0;
+                const priceChange1h = parseFloat(token.priceChange1h) || 0;
+                
+                // 1. Volume Score (40% weight) - Most important
+                if (volume > 0) {
+                    const volumeScore = Math.min(Math.log10(volume + 1) * 100, 400);
+                    score += volumeScore;
+                }
+                
+                // 2. Liquidity Score (25% weight)
+                if (liquidity > 0) {
+                    if (liquidity >= 100000) {
+                        score += 250; // Excellent liquidity
+                    } else if (liquidity >= 50000) {
+                        score += 200; // Good liquidity
+                    } else if (liquidity >= 20000) {
+                        score += 150; // Decent liquidity
+                    } else if (liquidity >= 10000) {
+                        score += 100; // Minimum acceptable
+                    } else {
+                        score += 50; // Low liquidity penalty
+                    }
+                }
+                
+                // 3. Price Momentum (20% weight)
+                // Prefer steady growth over extreme pumps
+                if (priceChange24h > 0) {
+                    if (priceChange24h >= 10 && priceChange24h <= 100) {
+                        // Sweet spot: 10-100% gains
+                        score += priceChange24h * 1.5;
+                    } else if (priceChange24h > 100 && priceChange24h <= 500) {
+                        // High gains but risky
+                        score += 100;
+                    } else if (priceChange24h < 10) {
+                        // Small gains
+                        score += priceChange24h * 5;
+                    } else {
+                        // Extreme pumps - likely dumping soon
+                        score += 50;
+                    }
+                }
+                
+                // 4. Short-term momentum (10% weight)
+                if (priceChange1h > 0 && priceChange1h < 50) {
+                    score += priceChange1h * 2;
+                } else if (priceChange1h < 0 && priceChange1h > -30) {
+                    // Small penalty for dips
+                    score += Math.abs(priceChange1h) * 0.5;
+                }
+                
+                // 5. Market Cap sweet spot (5% weight)
+                if (mcap >= 50000 && mcap <= 5000000) {
+                    // Ideal range for meme coins with growth potential
+                    score += 100;
+                } else if (mcap > 5000000 && mcap <= 50000000) {
+                    // Still good
+                    score += 50;
+                } else if (mcap > 0) {
+                    score += 20;
+                }
+                
+                // 6. Liquidity/MCap health ratio
+                if (mcap > 0 && liquidity > 0) {
+                    const ratio = liquidity / mcap;
+                    if (ratio >= 0.1 && ratio <= 0.5) {
+                        // Healthy ratio
+                        score += 75;
+                    } else if (ratio >= 0.05 && ratio < 0.1) {
+                        score += 50;
+                    } else if (ratio > 0.5) {
+                        // Too much liquidity relative to mcap (suspicious)
+                        score += 25;
+                    }
+                }
+                
+                // 7. Bonus for consistent growth
+                if (priceChange1h > 0 && priceChange24h > 0) {
+                    score += 50; // Both timeframes positive
+                }
+                
+                // 8. Penalty for extreme volatility
+                if (Math.abs(priceChange24h) > 1000) {
+                    score -= 100; // Likely manipulated
+                }
+                
+                token.trendingScore = Math.round(score);
+                return token;
+            }).sort((a, b) => b.trendingScore - a.trendingScore);
+        }
+        // ============================================
+        // COINRANKING API
+        // ============================================
+        
+        async function fetchLowCapFromDexScreener(highMcapMode = false) {
+            const modeLabel = highMcapMode ? 'High Mcap ($1M-$10M)' : 'Low Cap (<$1M)';
+            console.log(`🔎 Fetching ${modeLabel} gems from DexScreener...`);
+            
+            const allTokens = [];
+            const seenAddresses = new Set();
+            
+            // Расширенный список поисковых терминов - добавляем популярные BSC проекты
+            const searchTerms = [
+                // Популярные термины BSC
+                'bsc', 'bnb', 'cake', 'pancake', 'busd', 'usdt', 'twt', 'bake', 'xvs', 'eth', 'wbnb',
+                // Мем-коины BSC
+                'pump', 'meme', 'pepe', 'doge', 'shib', 'inu', 'floki', 'elon', 'wojak', 'shiba', 'baby',
+                // Категории
+                'cat', 'dog', 'frog', 'moon', 'rocket', 'gem', 'baby', 'safe', 'star',
+                // AI и новые категории
+                'ai', 'coin', 'token', 'defi', 'nft', 'meta', 'verse', 'protocol', 'game', 'web3'
+            ];
+            
+            for (const searchTerm of searchTerms) {
+                if (allTokens.length >= 150) break; // Увеличили до 150 для better coverage
+                
+                try {
+                    const response = await fetch(`https://api.dexscreener.com/latest/dex/search?q=${searchTerm}`);
+                    
+                    if (!response.ok) continue;
+                    
+                    const data = await response.json();
+                    
+                    if (!data.pairs || data.pairs.length === 0) continue;
+                    
+                    // Filter for BSC tokens
+                    const bscPairs = data.pairs
+                        .filter(p => p.chainId === 'bsc' && !seenAddresses.has(p.baseToken?.address))
+                        .sort((a, b) => {
+                            // Приоритет для токенов $1M+ по маркет капу
+                            const aCap = parseFloat(a.marketCap || 0);
+                            const bCap = parseFloat(b.marketCap || 0);
+                            return bCap - aCap;
+                        });
+                    
+                    for (const pair of bscPairs) {
+                        if (allTokens.length >= 150) break;
+                        
+                        const address = pair.baseToken?.address;
+                        
+                        if (!address || seenAddresses.has(address)) continue;
+                        
+                        const marketCap = parseFloat(pair.marketCap || 0);
+                        const liquidity = parseFloat(pair.liquidity?.usd || 0);
+                        const volume24h = parseFloat(pair.volume?.h24 || 0);
+                        
+                        // ФИЛЬТР зависит от режима
+                        if (marketCap === 0) continue;
+                        
+                        if (highMcapMode) {
+                            // HIGH MCAP MODE: только токены $1M - $10M
+                            if (marketCap < 1000000 || marketCap > 10000000) continue;
+                            // Минимум $2K ликвидности и $500 объем
+                            if (liquidity < 2000 || volume24h < 500) continue;
+                        } else {
+                            // LOW CAP MODE: только токены < $1M
+                            if (marketCap >= 1000000) continue;
+                            // Минимум $1.5K ликвидности и $300 объем (более мягкие требования)
+                            if (liquidity < 1500 || volume24h < 300) continue;
+                        }
+                        
+                        const mcapLabel = marketCap >= 1000000 ? 
+                            `$${(marketCap/1000000).toFixed(2)}M` : 
+                            `$${(marketCap/1000).toFixed(0)}K`;
+                        
+                        console.log(`✅ ${pair.baseToken?.symbol}: MarketCap ${mcapLabel}`);
+                        
+                        seenAddresses.add(address);
+                        const token = processDexScreenerPair(pair);
+                        if (token) {
+                            allTokens.push(token);
+                        }
+                    }
+                    
+                    if (allTokens.length >= 150) break;
+                    
+                    // Small delay to avoid rate limiting
+                    await new Promise(r => setTimeout(r, 200));
+                } catch (e) {
+                    console.log(`Error searching ${searchTerm}:`, e.message);
+                }
+            }
+            
+            console.log(`✅ Collected ${allTokens.length} unique tokens in ${modeLabel} mode`);
+            
+            // Возвращаем до 50 токенов
+            return allTokens.slice(0, 50);
+        }
+        
+        function processDexScreenerPair(pair) {
+            try {
+                const symbol = pair.baseToken?.symbol || 'UNKNOWN';
+                const name = pair.baseToken?.name || symbol;
+                const address = pair.baseToken?.address || '';
+                
+                const price = parseFloat(pair.priceUsd || 0);
+                const marketCap = parseFloat(pair.marketCap || 0);
+                const liquidity = parseFloat(pair.liquidity?.usd || 0);
+                const volume24h = parseFloat(pair.volume?.h24 || 0);
+                
+                // Get price changes for all timeframes
+                const priceChange5m = parseFloat(pair.priceChange?.m5 || 0);
+                const priceChange1h = parseFloat(pair.priceChange?.h1 || 0);
+                const priceChange6h = parseFloat(pair.priceChange?.h6 || 0);
+                const priceChange24h = parseFloat(pair.priceChange?.h24 || 0);
+                
+                // Risk assessment
+                let riskScore = 'Passed';
+                let riskLevel = 'safe';
+                
+                if (liquidity < 10000) {
+                    riskScore = 'Low Liq';
+                    riskLevel = 'danger';
+                } else if (liquidity < 50000) {
+                    riskScore = 'Caution';
+                    riskLevel = 'warning';
+                }
+                
+                return {
+                    name: symbol,
+                    fullName: name,
+                    address: shortenAddress(address),
+                    fullAddress: address,
+                    icon: getTokenEmoji(symbol),
+                    iconColor: getRandomColor(address),
+                    iconUrl: pair.info?.imageUrl || null,
+                    liquidity: {
+                        usd: liquidity,
+                        bnb: CONFIG.bnbPrice > 0 ? liquidity / CONFIG.bnbPrice : 0
+                    },
+                    marketcap: {
+                        usd: marketCap,
+                        bnb: CONFIG.bnbPrice > 0 ? marketCap / CONFIG.bnbPrice : 0
+                    },
+                    price: price,
+                    // Store all timeframe changes
+                    priceChange5m: priceChange5m,
+                    priceChange1h: priceChange1h,
+                    priceChange6h: priceChange6h,
+                    priceChange24h: priceChange24h,
+                    // Format for display
+                    priceChangeLive: formatPriceChange(priceChange5m),
+                    priceChange1hFormatted: formatPriceChange(priceChange1h),
+                    priceChange24hFormatted: formatPriceChange(priceChange24h),
+                    riskScore: riskScore,
+                    riskLevel: riskLevel,
+                    volume24h: volume24h,
+                    pairAddress: address,
+                    createdAt: pair.pairCreatedAt || null,
+                    dexId: pair.dexId || 'pancakeswap',
+                    url: `https://dexscreener.com/bsc/${address}`
+                };
+            } catch (e) {
+                console.log('Error processing DexScreener pair:', e.message);
+                return null;
+            }
+        }
+        
+        async function fetchCoinrankingTrending() {
+            // Old Coinranking approach - keeping as fallback
+            throw new Error('Using DexScreener for low-cap tokens');
+        }
+        
+        // Get real BSC address for a token symbol
+        async function getBscAddressForSymbol(symbol) {
+            try {
+                const response = await fetch(`https://api.dexscreener.com/latest/dex/search?q=${symbol}`);
+                const data = await response.json();
+                
+                if (data.pairs && data.pairs.length > 0) {
+                    // Find BSC pair with highest liquidity
+                    const bscPair = data.pairs
+                        .filter(p => p.chainId === 'bsc')
+                        .sort((a, b) => (b.liquidity?.usd || 0) - (a.liquidity?.usd || 0))[0];
+                    
+                    if (bscPair) {
+                        return {
+                            address: bscPair.baseToken?.address,
+                            liquidity: bscPair.liquidity?.usd || 0,
+                            pairData: bscPair
+                        };
+                    }
+                }
+                return null;
+            } catch (e) {
+                console.log(`Error fetching address for ${symbol}:`, e.message);
+                return null;
+            }
+        }
+        
+        async function processCoinrankingToken(coin, bscData) {
+            try {
+                const symbol = coin.symbol || 'UNKNOWN';
+                const name = coin.name || symbol;
+                const address = bscData.address || '';
+                
+                const price = parseFloat(coin.price || 0);
+                const marketCap = parseFloat(coin.marketCap || 0);
+                const volume24h = parseFloat(coin['24hVolume'] || 0);
+                const change24h = parseFloat(coin.change || 0);
+                
+                // Use real liquidity from DexScreener
+                const liquidity = bscData.liquidity || volume24h * 0.07;
+                
+                // Get additional data from pair if available
+                const pairData = bscData.pairData;
+                const priceChange1h = pairData ? parseFloat(pairData.priceChange?.h1 || 0) : 0;
+                
+                // Risk assessment
+                let riskScore = 'Passed';
+                let riskLevel = 'safe';
+                
+                if (liquidity < 10000) {
+                    riskScore = 'Low Liq';
+                    riskLevel = 'danger';
+                } else if (liquidity < 50000) {
+                    riskScore = 'Caution';
+                    riskLevel = 'warning';
+                }
+                
+                return {
+                    name: symbol,
+                    fullName: name,
+                    address: shortenAddress(address),
+                    fullAddress: address,
+                    icon: getTokenEmoji(symbol),
+                    iconColor: coin.color || getRandomColor(address),
+                    iconUrl: coin.iconUrl || pairData?.info?.imageUrl || null,
+                    liquidity: {
+                        usd: liquidity,
+                        bnb: CONFIG.bnbPrice > 0 ? liquidity / CONFIG.bnbPrice : 0
+                    },
+                    marketcap: {
+                        usd: marketCap,
+                        bnb: CONFIG.bnbPrice > 0 ? marketCap / CONFIG.bnbPrice : 0
+                    },
+                    price: price,
+                    priceChangeLive: formatPriceChange(priceChange1h),
+                    priceChange1h: formatPriceChange(priceChange1h),
+                    priceChange24h: formatPriceChange(change24h),
+                    riskScore: riskScore,
+                    riskLevel: riskLevel,
+                    volume24h: volume24h,
+                    pairAddress: address,
+                    createdAt: pairData?.pairCreatedAt || null,
+                    dexId: pairData?.dexId || 'pancakeswap',
+                    url: `https://dexscreener.com/bsc/${address}`
+                };
+            } catch (e) {
+                console.log('Error processing Coinranking token:', e.message);
+                return null;
+            }
+        }
+
+        // ============================================
+        // GECKOTERMINAL API
+        // ============================================
+        
+        async function fetchGeckoTerminalTrending() {
+            const response = await fetch('https://api.geckoterminal.com/api/v2/networks/bsc/trending_pools?page=1');
+            
+            if (!response.ok) {
+                throw new Error(`GeckoTerminal API error: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            if (!data.data || data.data.length === 0) {
+                throw new Error('No trending pools found');
+            }
+            
+            // Process pools into our token format
+            const tokens = data.data
+                .filter(pool => {
+                    const attrs = pool.attributes;
+                    // Более мягкий фильтр: ликвидность от $2K
+                    return attrs.reserve_in_usd > 2000;
+                })
+                .slice(0, 60)
+                .map(pool => {
+                    try {
+                        return processGeckoTerminalPool(pool);
+                    } catch (e) {
+                        console.log('Error processing pool:', e.message);
+                        return null;
+                    }
+                })
+                .filter(token => {
+                    if (!token) return false;
+                    const invalidNames = ['UNKNOWN', 'BNB', 'WBNB', 'USDC', 'USDT', 'BUSD'];
+                    return !invalidNames.includes(token.name);
+                });
+            
+            return tokens;
+        }
+        
+        // Fetch new pools from GeckoTerminal
+        async function fetchGeckoTerminalNew() {
+            const response = await fetch('https://api.geckoterminal.com/api/v2/networks/bsc/new_pools?page=1');
+            
+            if (!response.ok) {
+                throw new Error(`GeckoTerminal new pools API error: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            if (!data.data || data.data.length === 0) {
+                return [];
+            }
+            
+            // Process new pools - filter for quality
+            const tokens = data.data
+                .filter(pool => {
+                    const attrs = pool.attributes;
+                    // New pools: ликвидность от $1.5K
+                    return attrs.reserve_in_usd > 1500;
+                })
+                .slice(0, 50)
+                .map(pool => {
+                    try {
+                        return processGeckoTerminalPool(pool);
+                    } catch (e) {
+                        return null;
+                    }
+                })
+                .filter(token => {
+                    if (!token) return false;
+                    const invalidNames = ['UNKNOWN', 'BNB', 'WBNB', 'USDC', 'USDT', 'BUSD'];
+                    return !invalidNames.includes(token.name);
+                });
+            
+            return tokens;
+        }
+        
+        function processGeckoTerminalPool(pool) {
+            const attrs = pool.attributes;
+            
+            // Smart token selection: avoid BNB, USDC, USDT
+            const stablecoins = ['BNB', 'WBNB', 'USDC', 'USDT', 'BUSD', 'WETH', 'ETH'];
+            let tokenSymbol, tokenName, tokenAddress, tokenPrice;
+            
+            const baseSymbol = (attrs.base_token_symbol || '').toUpperCase();
+            const quoteSymbol = (attrs.quote_token_symbol || '').toUpperCase();
+            
+            // If base is not a stablecoin/BNB, use it; otherwise use quote
+            if (!stablecoins.includes(baseSymbol) && baseSymbol) {
+                tokenSymbol = attrs.base_token_symbol;
+                tokenName = attrs.base_token_name || tokenSymbol;
+                tokenAddress = attrs.base_token_address || '';
+                tokenPrice = parseFloat(attrs.base_token_price_usd) || 0;
+            } else if (!stablecoins.includes(quoteSymbol) && quoteSymbol) {
+                tokenSymbol = attrs.quote_token_symbol;
+                tokenName = attrs.quote_token_name || tokenSymbol;
+                tokenAddress = attrs.quote_token_address || '';
+                tokenPrice = parseFloat(attrs.quote_token_price_usd) || 0;
+            } else {
+                // Fallback: use the one with higher price (likely not BNB/stablecoin)
+                const basePrice = parseFloat(attrs.base_token_price_usd) || 0;
+                const quotePrice = parseFloat(attrs.quote_token_price_usd) || 0;
+                
+                if (basePrice > quotePrice && basePrice < 1000000) { // Not crazy high
+                    tokenSymbol = attrs.base_token_symbol || 'UNKNOWN';
+                    tokenName = attrs.base_token_name || tokenSymbol;
+                    tokenAddress = attrs.base_token_address || '';
+                    tokenPrice = basePrice;
+                } else {
+                    tokenSymbol = attrs.quote_token_symbol || 'UNKNOWN';
+                    tokenName = attrs.quote_token_name || tokenSymbol;
+                    tokenAddress = attrs.quote_token_address || '';
+                    tokenPrice = quotePrice;
+                }
+            }
+            
+            const liquidity = parseFloat(attrs.reserve_in_usd) || 0;
+            const fdv = parseFloat(attrs.fully_diluted_valuation) || parseFloat(attrs.market_cap_usd) || 0;
+            const volume24h = parseFloat(attrs.volume_usd?.h24) || 0;
+            
+            const priceChange1h = parseFloat(attrs.price_change_percentage?.h1) || 0;
+            const priceChange24h = parseFloat(attrs.price_change_percentage?.h24) || 0;
+            
+            // Determine risk level
+            let riskScore = 'Passed';
+            let riskLevel = 'safe';
+            
+            if (liquidity < 10000) {
+                riskScore = 'Low Liq';
+                riskLevel = 'danger';
+            } else if (liquidity < 50000) {
+                riskScore = 'Caution';
+                riskLevel = 'warning';
+            }
+            
+            return {
+                name: tokenSymbol,
+                fullName: tokenName,
+                address: shortenAddress(tokenAddress),
+                fullAddress: tokenAddress,
+                icon: getTokenEmoji(tokenSymbol),
+                iconColor: getRandomColor(tokenAddress),
+                iconUrl: attrs.image_url || null,
+                liquidity: {
+                    usd: liquidity,
+                    bnb: CONFIG.bnbPrice > 0 ? liquidity / CONFIG.bnbPrice : 0
+                },
+                marketcap: {
+                    usd: fdv,
+                    bnb: CONFIG.bnbPrice > 0 ? fdv / CONFIG.bnbPrice : 0
+                },
+                price: tokenPrice,
+                priceChangeLive: formatPriceChange(priceChange1h),
+                priceChange1h: formatPriceChange(priceChange1h),
+                priceChange24h: formatPriceChange(priceChange24h),
+                riskScore: riskScore,
+                riskLevel: riskLevel,
+                volume24h: volume24h,
+                pairAddress: pool.attributes.address,
+                createdAt: null,
+                dexId: 'pancakeswap',
+                url: `https://www.geckoterminal.com/bsc/pools/${pool.attributes.address}`
+            };
+        }
+
+        // ============================================
+        // DEXSCREENER API (Fallback)
+        // ============================================
+        
+        async function fetchDexScreenerTrending() {
+            // Use DexScreener's token boosts/trending endpoint
+            const boostsResponse = await fetch('https://api.dexscreener.com/token-boosts/top/v1');
+            
+            if (!boostsResponse.ok) {
+                throw new Error(`DexScreener API error: ${boostsResponse.status}`);
+            }
+            
+            const boostsData = await boostsResponse.json();
+            
+            // Filter for BSC tokens
+            const bscTokens = boostsData
+                .filter(token => token.chainId === 'bsc')
+                .slice(0, 30);
+            
+            if (bscTokens.length === 0) {
+                throw new Error('No BSC tokens found');
+            }
+            
+            // Fetch detailed info for each token
+            const tokenAddresses = bscTokens.map(t => t.tokenAddress);
+            const tokensData = await fetchTokenDetails(tokenAddresses);
+            
+            return tokensData;
+        }
+
+        // Fallback: Fetch popular BSC pairs
+        async function fetchPopularBscPairs() {
+            try {
+                // Search for popular BSC meme coins
+                const searchTerms = ['cake', 'floki', 'babydoge', 'safemoon', 'shib', 'pepe', 'doge', 'meme', 'inu', 'moon', 'bnb', 'pancake', 'defi'];
+                const allPairs = [];
+                
+                for (const term of searchTerms) {
+                    try {
+                        const response = await fetch(`https://api.dexscreener.com/latest/dex/search?q=${term}`);
+                        const data = await response.json();
+                        
+                        if (data.pairs) {
+                            const bscPairs = data.pairs
+                                .filter(p => p.chainId === 'bsc' && (p.liquidity?.usd || 0) > 5000)
+                                .slice(0, 5);
+                            allPairs.push(...bscPairs);
+                        }
+                        await new Promise(r => setTimeout(r, 150));
+                    } catch (e) {
+                        console.log(`Error searching for ${term}:`, e);
+                    }
+                }
+                
+                // Remove duplicates and process
+                const uniquePairs = removeDuplicatePairs(allPairs);
+                const processedTokens = uniquePairs.map(processPairData);
+                
+                currentTokens = processedTokens;
+                renderTable(currentTokens);
+                updateLastRefreshTime();
+                
+            } catch (error) {
+                console.error('Error in fallback fetch:', error);
+                showError('Failed to load trending tokens. Please try again.');
+            }
+        }
+
+        // Fetch detailed token info
+        async function fetchTokenDetails(addresses) {
+            const tokens = [];
+            
+            for (const address of addresses.slice(0, 25)) {
+                try {
+                    const response = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${address}`);
+                    const data = await response.json();
+                    
+                    if (data.pairs && data.pairs.length > 0) {
+                        // Get the pair with highest liquidity
+                        const mainPair = data.pairs
+                            .filter(p => p.chainId === 'bsc')
+                            .sort((a, b) => (b.liquidity?.usd || 0) - (a.liquidity?.usd || 0))[0];
+                        
+                        if (mainPair) {
+                            tokens.push(processPairData(mainPair));
+                        }
+                    }
+                } catch (error) {
+                    console.log(`Error fetching token ${address}:`, error);
+                }
+            }
+            
+            return tokens;
+        }
+
+        // Process DexScreener pair data into our format
+        function processPairData(pair) {
+            const priceChange5m = pair.priceChange?.m5 || 0;
+            const priceChange1h = pair.priceChange?.h1 || 0;
+            const priceChange24h = pair.priceChange?.h24 || 0;
+            
+            // Determine risk level based on various factors
+            let riskScore = 'Passed';
+            let riskLevel = 'safe';
+            
+            const liquidity = pair.liquidity?.usd || 0;
+            const volume24h = pair.volume?.h24 || 0;
+            const fdv = pair.fdv || 0;
+            
+            if (liquidity < 10000) {
+                riskScore = 'Low Liq';
+                riskLevel = 'danger';
+            } else if (liquidity < 50000) {
+                riskScore = 'Caution';
+                riskLevel = 'warning';
+            } else if (fdv > 0 && liquidity / fdv < 0.01) {
+                riskScore = 'Caution';
+                riskLevel = 'warning';
+            }
+            
+            return {
+                name: pair.baseToken?.symbol || 'Unknown',
+                fullName: pair.baseToken?.name || '',
+                address: shortenAddress(pair.baseToken?.address || ''),
+                fullAddress: pair.baseToken?.address || '',
+                icon: getTokenEmoji(pair.baseToken?.symbol || ''),
+                iconColor: getRandomColor(pair.baseToken?.address || ''),
+                iconUrl: pair.info?.imageUrl || null,
+                liquidity: {
+                    usd: liquidity,
+                    bnb: CONFIG.bnbPrice > 0 ? liquidity / CONFIG.bnbPrice : 0
+                },
+                marketcap: {
+                    usd: fdv,
+                    bnb: CONFIG.bnbPrice > 0 ? fdv / CONFIG.bnbPrice : 0
+                },
+                price: parseFloat(pair.priceUsd) || 0,
+                priceChangeLive: formatPriceChange(priceChange5m),
+                priceChange1h: formatPriceChange(priceChange1h),
+                priceChange24h: formatPriceChange(priceChange24h),
+                riskScore: riskScore,
+                riskLevel: riskLevel,
+                volume24h: volume24h,
+                pairAddress: pair.pairAddress,
+                createdAt: pair.pairCreatedAt,
+                dexId: pair.dexId,
+                url: pair.url
+            };
+        }
+
+        // Remove duplicate pairs by token address
+        function removeDuplicatePairs(pairs) {
+            const seen = new Set();
+            return pairs.filter(pair => {
+                const address = pair.baseToken?.address;
+                if (seen.has(address)) return false;
+                seen.add(address);
+                return true;
+            });
+        }
+
+        // ============================================
+        // UTILITY FUNCTIONS
+        // ============================================
+        
+        // Shorten address for display
+        function shortenAddress(address) {
+            if (!address || address.length < 10) return address;
+            return `${address.slice(0, 5)}...${address.slice(-4)}`;
+        }
+
+        // Format price change percentage
+        function formatPriceChange(change) {
+            if (change === null || change === undefined || isNaN(change)) return '+0%';
+            const sign = change >= 0 ? '+' : '';
+            return `${sign}${change.toFixed(2)}%`;
+        }
+
+        // Get emoji for token (based on common patterns)
+        function getTokenEmoji(symbol) {
+            const emojiMap = {
+                'BNB': '💛',
+                'WBNB': '💛',
+                'CAKE': '🥞',
+                'FLOKI': '🐕',
+                'BABYDOGE': '🐶',
+                'SHIB': '🐕',
+                'PEPE': '🐸',
+                'DOGE': '🐕',
+                'WOJAK': '😭',
+                'TOK': '🪙',
+                'FROG': '🐸',
+                'BSC': '💛',
+                'SAFEMOON': '🌙',
+                'XVS': '⚡',
+                'BAKE': '🍞',
+                'TWT': '🔒',
+                'PUMP': '🚀',
+                'MEW': '😺',
+                'BUSD': '💵',
+                'USDC': '💵',
+                'USDT': '💲'
+            };
+            return emojiMap[(symbol || '').toUpperCase()] || '🪙';
+        }
+
+        // Generate consistent color from address
+        function getRandomColor(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                hash = str.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            const colors = [
+                '#e74c3c', '#f1c40f', '#27ae60', '#3498db', '#9b59b6',
+                '#e91e63', '#00bcd4', '#ff9800', '#673ab7', '#2ecc71',
+                '#1abc9c', '#e67e22', '#34495e', '#16a085', '#c0392b'
+            ];
+            return colors[Math.abs(hash) % colors.length];
+        }
+
+        // Format number with abbreviations
+        function formatNumber(num) {
+            if (!num || isNaN(num)) return '$0';
+            if (num >= 1e9) return '$' + (num / 1e9).toFixed(2) + 'B';
+            if (num >= 1e6) return '$' + (num / 1e6).toFixed(2) + 'M';
+            if (num >= 1e3) return '$' + (num / 1e3).toFixed(1) + 'K';
+            return '$' + num.toFixed(2);
+        }
+
+        // Format BNB amount
+        function formatBnb(num) {
+            if (!num || isNaN(num)) return '0';
+            return num.toLocaleString('en-US', { maximumFractionDigits: 2 });
+        }
+
+        // Format price
+        function formatPrice(price) {
+            if (!price || isNaN(price)) return '$0';
+            if (price >= 1) return '$' + price.toFixed(2);
+            if (price >= 0.01) return '$' + price.toFixed(4);
+            if (price >= 0.0001) return '$' + price.toFixed(6);
+            return '$' + price.toFixed(10);
+        }
+
+        // Get price change class
+        function getPriceChangeClass(change) {
+            if (!change) return 'neutral';
+            if (change.includes('+') && change !== '+0%' && change !== '+0.00%') return 'positive';
+            if (change.includes('-')) return 'negative';
+            return 'neutral';
+        }
+
+        // Copy to clipboard
+        async function copyAddress(address, evt) {
+            try {
+                await navigator.clipboard.writeText(address);
+                
+                // Find the button and show feedback
+                if (evt && evt.target) {
+                    const btn = evt.target.closest('.copy-btn');
+                    if (btn) {
+                        btn.classList.add('copied');
+                        setTimeout(() => btn.classList.remove('copied'), 1500);
+                    }
+                }
+                
+                // Show toast notification
+                showToast('Address copied to clipboard!');
+            } catch (error) {
+                console.error('Failed to copy:', error);
+                // Fallback for older browsers
+                try {
+                    const textArea = document.createElement('textarea');
+                    textArea.value = address;
+                    textArea.style.position = 'fixed';
+                    textArea.style.opacity = '0';
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    showToast('Address copied to clipboard!');
+                } catch (fallbackError) {
+                    showToast('Failed to copy address', 'error');
+                }
+            }
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            const existing = document.querySelector('.toast');
+            if (existing) existing.remove();
+            
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => toast.classList.add('show'), 10);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+
+        // ============================================
+        // UI FUNCTIONS
+        // ============================================
+        
+        // Show loading state
+        function showLoading() {
+            const tbody = document.getElementById('tokensTableBody');
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="7">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <p style="margin-top: 15px; color: rgba(255,255,255,0.6);">Gem Hunting in Progress...</p>
+                        </div>
+                    </td>
+                </tr>
+            `;
+            const tableContainer = document.querySelector('.table-container');
+            if (tableContainer) tableContainer.scrollLeft = 0;
+        }
+
+        // Show error state
+        function showError(message) {
+            const tbody = document.getElementById('tokensTableBody');
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="7">
+                        <div class="empty-state">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="12" y1="8" x2="12" y2="12"/>
+                                <line x1="12" y1="16" x2="12.01" y2="16"/>
+                            </svg>
+                            <p>${message}</p>
+                            <button onclick="fetchLowCapGems()" style="margin-top: 15px; padding: 10px 20px; background: linear-gradient(135deg, #F0B90B, #FCD535); border: none; color: #0B0E11; border-radius: 8px; cursor: pointer; font-family: 'Oxanium', sans-serif;">
+                                Try Again
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }
+
+        // Update last refresh time
+        function updateLastRefreshTime() {
+            const refreshInfo = document.getElementById('refreshInfo');
+            if (refreshInfo) {
+                const now = new Date();
+                refreshInfo.textContent = `Last updated: ${now.toLocaleTimeString()}`;
+            }
+        }
+
+        // Update data source badge
+        function updateDataSourceBadge(sourceName) {
+            const badge = document.getElementById('dataSource');
+            if (badge) {
+                badge.textContent = `Source: ${sourceName}`;
+                badge.style.display = 'inline-block';
+            }
+        }
+
+        // Render token row
+        function renderTokenRow(token, index) {
+            // Get price change based on selected timeframe
+            let selectedChange = 0;
+            let selectedChangeFormatted = '+0.00%';
+            
+            switch(currentTimeFrame) {
+                case '5m':
+                    selectedChange = token.priceChange5m || 0;
+                    selectedChangeFormatted = formatPriceChange(selectedChange);
+                    break;
+                case '1h':
+                    selectedChange = token.priceChange1h || 0;
+                    selectedChangeFormatted = formatPriceChange(selectedChange);
+                    break;
+                case '6h':
+                    selectedChange = token.priceChange6h || 0;
+                    selectedChangeFormatted = formatPriceChange(selectedChange);
+                    break;
+                case '24h':
+                    selectedChange = token.priceChange24h || 0;
+                    selectedChangeFormatted = formatPriceChange(selectedChange);
+                    break;
+                default:
+                    selectedChange = token.priceChange1h || 0;
+                    selectedChangeFormatted = formatPriceChange(selectedChange);
+            }
+            
+            const selectedChangeClass = getPriceChangeClass(selectedChangeFormatted);
+            const change24hClass = getPriceChangeClass(formatPriceChange(token.priceChange24h || 0));
+            
+            const iconContent = token.iconUrl 
+                ? `<img src="${token.iconUrl}" alt="${token.name}" onerror="this.style.display='none'; const s=this.nextElementSibling; if(s) s.style.display='flex';">
+                   <span class="token-icon-fallback" style="display:none;">${token.icon || '🪙'}</span>`
+                : `<span class="token-icon-fallback">${token.icon || '🪙'}</span>`;
+            
+            return `
+                <tr class="token-row" data-index="${index}" style="animation-delay: ${index * 50}ms">
+                    <td>
+                        <div class="token-info">
+                            <div class="token-icon" style="background: linear-gradient(135deg, ${token.iconColor}, ${token.iconColor}88);">
+                                ${iconContent}
+                            </div>
+                            <div class="token-details">
+                                <span class="token-name">${token.name}</span>
+                                <span class="token-address">
+                                    ${token.address}
+                                    <button class="copy-btn" data-address="${token.fullAddress}" title="Copy address">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                        </svg>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="liquidity-value">${formatNumber(token.liquidity.usd)}</div>
+                        <div class="liquidity-bnb">
+                            <svg class="bnb-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2L6 6.5 12 11 18 6.5 12 2ZM6 10L2 12.5 6 17 10 12.5 6 10ZM18 10L14 12.5 18 17 22 12.5 18 10ZM12 13L6 17.5 12 22 18 17.5 12 13Z"/>
+                            </svg>
+                            ${formatBnb(token.liquidity.bnb)} BNB
+                        </div>
+                    </td>
+                    <td>
+                        <div class="marketcap-value">${formatNumber(token.marketcap.usd)}</div>
+                        <div class="marketcap-bnb">
+                            <svg class="bnb-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2L6 6.5 12 11 18 6.5 12 2ZM6 10L2 12.5 6 17 10 12.5 6 10ZM18 10L14 12.5 18 17 22 12.5 18 10ZM12 13L6 17.5 12 22 18 17.5 12 13Z"/>
+                            </svg>
+                            ${formatBnb(token.marketcap.bnb)} BNB
+                        </div>
+                    </td>
+                    <td>
+                        <div class="price-value">${formatPrice(token.price)}</div>
+                        <div class="volume-info">Vol: ${formatNumber(token.volume24h)}</div>
+                    </td>
+                    <td>
+                        <div class="price-change-cell">
+                            <div>
+                                <span class="change-label">${currentTimeFrame.toUpperCase()} </span>
+                                <span class="change-badge ${selectedChangeClass}">${selectedChangeFormatted}</span>
+                            </div>
+                            <div>
+                                <span class="change-label">24h </span>
+                                <span class="change-badge ${change24hClass}">${formatPriceChange(token.priceChange24h || 0)}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="risk-score">
+                            <svg class="risk-icon ${token.riskLevel}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                ${token.riskLevel === 'safe' 
+                                    ? '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>'
+                                    : token.riskLevel === 'warning'
+                                    ? '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>'
+                                    : '<circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>'
+                                }
+                            </svg>
+                            <span class="risk-text ${token.riskLevel}">${token.riskScore}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="actions-cell">
+                            <button class="action-btn chart-btn" onclick="window.open('https://dexscreener.com/bsc/${token.fullAddress}', '_blank')" title="View Chart on DexScreener">
+                                <img src="https://dexscreener.com/favicon.ico" alt="DexScreener" style="width: 16px; height: 16px; margin-right: 4px;">
+                                Chart
+                            </button>
+                            <button class="action-btn swap-btn" onclick="window.open('https://pancakeswap.finance/swap?outputCurrency=${token.fullAddress}', '_blank')" title="Swap on PancakeSwap">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="17 1 21 5 17 9"/>
+                                    <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+                                    <polyline points="7 23 3 19 7 15"/>
+                                    <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+                                </svg>
+                                Swap
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }
+
+        // Render table
+        function renderTable(tokens) {
+            const tbody = document.getElementById('tokensTableBody');
+            
+            if (!tokens || tokens.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7">
+                            <div class="empty-state">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <line x1="12" y1="8" x2="12" y2="12"/>
+                                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                                </svg>
+                                <p>No gems found</p>
+                                <button onclick="fetchLowCapGems()" style="margin-top: 15px; padding: 10px 20px; background: linear-gradient(135deg, #F0B90B, #FCD535); border: none; color: #0B0E11; border-radius: 8px; cursor: pointer; font-family: 'Oxanium', sans-serif;">
+                                    Refresh
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            // Токены уже отфильтрованы при загрузке, просто используем их
+            let filteredTokens = [...tokens];
+            
+            // Sort tokens: by creation date OR by price change
+            let sortedTokens = [...filteredTokens].sort((a, b) => {
+                // Если включена сортировка по дате создания
+                if (sortByDate) {
+                    const aCreated = a.createdAt || 0;
+                    const bCreated = b.createdAt || 0;
+                    
+                    if (sortNewest) {
+                        // Newest first: более поздняя дата идет первой
+                        return bCreated - aCreated;
+                    } else {
+                        // Oldest first: более ранняя дата идет первой
+                        return aCreated - bCreated;
+                    }
+                }
+                
+                // Иначе сортируем по price change для выбранного таймфрейма
+                let aChange = 0;
+                let bChange = 0;
+                
+                switch(currentTimeFrame) {
+                    case '5m':
+                        aChange = a.priceChange5m || 0;
+                        bChange = b.priceChange5m || 0;
+                        break;
+                    case '1h':
+                        aChange = a.priceChange1h || 0;
+                        bChange = b.priceChange1h || 0;
+                        break;
+                    case '6h':
+                        aChange = a.priceChange6h || 0;
+                        bChange = b.priceChange6h || 0;
+                        break;
+                    case '24h':
+                        aChange = a.priceChange24h || 0;
+                        bChange = b.priceChange24h || 0;
+                        break;
+                    default:
+                        aChange = a.priceChange1h || 0;
+                        bChange = b.priceChange1h || 0;
+                }
+                
+                return bChange - aChange; // Highest gain first
+            });
+            
+            tbody.innerHTML = sortedTokens.map((token, index) => renderTokenRow(token, index)).join('');
+            
+            // Сброс горизонтального скролла — таблица не смещается после загрузки
+            const tableContainer = document.querySelector('.table-container');
+            if (tableContainer) {
+                tableContainer.scrollLeft = 0;
+            }
+        }
+
+        // Sort tokens by different criteria
+        function sortTokens(criteria) {
+            let sorted = [...currentTokens];
+            
+            switch(criteria) {
+                case 'liquidity':
+                    sorted.sort((a, b) => b.liquidity.usd - a.liquidity.usd);
+                    break;
+                case 'marketcap':
+                    sorted.sort((a, b) => b.marketcap.usd - a.marketcap.usd);
+                    break;
+                case 'price_change':
+                    sorted.sort((a, b) => {
+                        const aChange = parseFloat(b.priceChange24h) || 0;
+                        const bChange = parseFloat(a.priceChange24h) || 0;
+                        return aChange - bChange;
+                    });
+                    break;
+                case 'volume':
+                    sorted.sort((a, b) => b.volume24h - a.volume24h);
+                    break;
+                default:
+                    // Keep original order (newest)
+                    break;
+            }
+            
+            renderTable(sorted);
+        }
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initial fetch
+            fetchLowCapGems();
+            
+            // Set up auto-refresh
+            refreshTimer = setInterval(() => {
+                fetchLowCapGems();
+            }, CONFIG.refreshInterval);
+
+            // Time filter buttons
+            document.querySelectorAll('.time-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentTimeFrame = this.dataset.time;
+                    fetchLowCapGems();
+                });
+            });
+
+            // High Mcap toggle - filter tokens with market cap $1M - $10M
+            const highMcapToggle = document.getElementById('highMcapToggle');
+            highMcapToggle.addEventListener('click', async function() {
+                this.classList.toggle('active');
+                filterHighMcap = this.classList.contains('active');
+                
+                if (filterHighMcap) {
+                    showToast('💎 Gem Hunting in Progress... ($1M - $10M)');
+                } else {
+                    showToast('💎 Gem Hunting in Progress... (<$1M)');
+                }
+                
+                // Перезагружаем данные в нужном режиме
+                await fetchLowCapGems();
+            });
+
+            // Sort button - toggles between date sorting and price change sorting
+            const sortBtn = document.getElementById('sortBtn');
+            sortBtn.addEventListener('click', function() {
+                if (!sortByDate) {
+                    // First click: enable date sorting (newest first)
+                    sortByDate = true;
+                    sortNewest = true;
+                    this.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M7 15l5 5 5-5"/>
+                        <path d="M7 9l5-5 5 5"/>
+                    </svg>
+                    Newest First`;
+                } else if (sortNewest) {
+                    // Second click: switch to oldest first
+                    sortNewest = false;
+                    this.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M7 15l5 5 5-5"/>
+                        <path d="M7 9l5-5 5 5"/>
+                    </svg>
+                    Oldest First`;
+                } else {
+                    // Third click: disable date sorting, back to price change sorting
+                    sortByDate = false;
+                    this.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M7 15l5 5 5-5"/>
+                        <path d="M7 9l5-5 5 5"/>
+                    </svg>
+                    Price Change`;
+                }
+                renderTable(currentTokens);
+            });
+
+            // Refresh button (manual refresh)
+            const refreshBtn = document.getElementById('refreshBtn');
+            if (refreshBtn) {
+                refreshBtn.addEventListener('click', function() {
+                    fetchLowCapGems();
+                });
+            }
+
+            // Grid view button
+            const gridBtn = document.getElementById('gridBtn');
+            gridBtn.addEventListener('click', function() {
+                showToast('Grid view coming soon!');
+            });
+
+            // Filter button
+            const filterBtn = document.getElementById('filterBtn');
+            filterBtn.addEventListener('click', function() {
+                showToast('Filters coming soon!');
+            });
+
+            // Cleanup on page unload
+            window.addEventListener('beforeunload', function() {
+                if (refreshTimer) {
+                    clearInterval(refreshTimer);
+                }
+            });
+
+            // Event delegation for copy buttons
+            document.addEventListener('click', function(e) {
+                const copyBtn = e.target.closest('.copy-btn');
+                if (copyBtn) {
+                    const address = copyBtn.dataset.address;
+                    if (address) {
+                        copyAddress(address, e);
+                    }
+                }
+            });
+
+            // ========== ZORIA TOKEN DASHBOARD (Dexscreener) ==========
+            const ZORIA_TOKEN = '0x0b71296d09b5aa459c6c79a425e41aa9179d7777';
+            const ZORIA_PAIR = '0xc99974308aab69e008ccc3ea4fa794d406fccc76';
+
+            function formatUsd(v) {
+                if (v == null || isNaN(v)) return '—';
+                if (v >= 1e6) return '$' + (v / 1e6).toFixed(2) + 'M';
+                if (v >= 1e3) return '$' + (v / 1e3).toFixed(2) + 'K';
+                if (v >= 1) return '$' + v.toFixed(2);
+                if (v >= 0.0001) return '$' + v.toFixed(6);
+                return '$' + v.toExponential(2);
+            }
+
+            function formatPrice(v) {
+                if (v == null || isNaN(v)) return '—';
+                if (v >= 0.01) return '$' + v.toFixed(4);
+                if (v >= 0.0001) return '$' + v.toFixed(6);
+                if (v >= 0.00001) return '$' + v.toFixed(7);
+                if (v >= 0.000001) return '$' + v.toFixed(8);
+                return '$' + v.toFixed(8);
+            }
+
+            function updateZoriaDashboard(data) {
+                var pair = (data.pairs && data.pairs[0]) || data.pair;
+                if (!pair) return;
+                var el = function(id) { return document.getElementById(id); };
+                el('zoriaPairName').textContent = (pair.baseToken.symbol || 'ZORIA') + '/' + (pair.quoteToken.symbol || 'WBNB');
+                el('zoriaVolume24h').textContent = formatUsd(pair.volume && pair.volume.h24);
+                el('zoriaPriceUsd').textContent = formatPrice(parseFloat(pair.priceUsd));
+                var pc = pair.priceChange || {};
+                function setChange(id, val) {
+                    var span = el(id);
+                    if (!span) return;
+                    if (val != null && !isNaN(val)) {
+                        span.textContent = (val >= 0 ? '+' : '') + val.toFixed(2) + '%';
+                        span.className = 'zoria-metric-value ' + (val >= 0 ? 'positive' : 'negative');
+                    } else {
+                        span.textContent = '—';
+                        span.className = 'zoria-metric-value';
+                    }
+                }
+                setChange('zoriaPriceChange1h', pc.h1);
+                setChange('zoriaPriceChange6h', pc.h6);
+                setChange('zoriaPriceChange', pc.h24);
+                el('zoriaMarketCap').textContent = formatUsd(pair.marketCap || pair.fdv);
+            }
+
+            var ZORIA_GEcko_POOL = '0xc99974308aab69e008ccc3ea4fa794d406fccc76';
+
+            function formatAmount(num) {
+                if (num == null || isNaN(num)) return '—';
+                var n = parseFloat(num);
+                if (n >= 1e6) return (n / 1e6).toFixed(2) + 'M';
+                if (n >= 1e3) return (n / 1e3).toFixed(2) + 'K';
+                if (n >= 1) return n.toFixed(2);
+                return n.toFixed(4);
+            }
+
+            function timeAgo(isoStr) {
+                if (!isoStr) return '—';
+                var d = new Date(isoStr);
+                var sec = Math.floor((Date.now() - d.getTime()) / 1000);
+                if (sec < 60) return sec + 's ago';
+                if (sec < 3600) return Math.floor(sec / 60) + 'm ago';
+                if (sec < 86400) return Math.floor(sec / 3600) + 'h ago';
+                return Math.floor(sec / 86400) + 'd ago';
+            }
+
+            function showTradesLoading() {
+                var tbody = document.getElementById('zoriaTradesBody');
+                if (tbody) tbody.innerHTML = '<tr><td colspan="5" class="zoria-dashboard-loading"><span class="zoria-trades-loading-spinner"></span> Loading…</td></tr>';
+            }
+
+            function renderZoriaTrades(trades) {
+                var tbody = document.getElementById('zoriaTradesBody');
+                if (!tbody) return;
+                if (!trades || trades.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:16px; color:rgba(234,236,239,0.5);">No recent trades.</td></tr>';
+                    return;
+                }
+                var html = '';
+                var show = Math.min(trades.length, 15);
+                for (var i = 0; i < show; i++) {
+                    try {
+                        var raw = trades[i];
+                        var t = (raw && raw.attributes) ? raw.attributes : raw;
+                        if (!t) continue;
+                        var kind = (t.kind || '').toLowerCase();
+                        var isBuy = kind === 'buy';
+                        var zoriaAmount = isBuy ? t.to_token_amount : t.from_token_amount;
+                        var usd = t.volume_in_usd != null ? parseFloat(t.volume_in_usd) : 0;
+                        var txHash = t.tx_hash || '';
+                        var shortTx = txHash.length >= 10 ? '...' + txHash.slice(-6) : txHash;
+                        var txUrl = 'https://bscscan.com/tx/' + txHash;
+                        var rowClass = '';
+                        if (isBuy && !isNaN(usd)) {
+                            if (usd >= 100) rowClass = ' zoria-buy-100';
+                            else if (usd >= 50) rowClass = ' zoria-buy-50';
+                            else if (usd >= 20) rowClass = ' zoria-buy-20';
+                        }
+                        html += '<tr class="' + rowClass + '">';
+                        html += '<td><span class="zoria-trade-type ' + (isBuy ? 'buy' : 'sell') + '">' + (isBuy ? 'BUY' : 'SELL') + '</span></td>';
+                        html += '<td>' + formatAmount(zoriaAmount) + '</td>';
+                        html += '<td>$' + (isNaN(usd) ? '—' : usd.toFixed(2)) + '</td>';
+                        html += '<td><a href="' + txUrl + '" target="_blank" rel="noopener" style="color:#F0B90B; text-decoration:none;">' + shortTx + '</a></td>';
+                        html += '<td>' + timeAgo(t.block_timestamp) + '</td>';
+                        html += '</tr>';
+                    } catch (e) {}
+                }
+                tbody.innerHTML = html || '<tr><td colspan="5" style="text-align:center; padding:16px; color:rgba(234,236,239,0.5);">No recent trades.</td></tr>';
+            }
+
+            function fetchZoriaTrades(attempt) {
+                attempt = attempt || 0;
+                var maxRetries = 4;
+                var retryDelayMs = 2000;
+                showTradesLoading();
+                var loadStart = Date.now();
+                var minLoadMs = 1200;
+                function showResult(trades) {
+                    var elapsed = Date.now() - loadStart;
+                    var wait = Math.max(0, minLoadMs - elapsed);
+                    if (wait > 0) setTimeout(function() { renderZoriaTrades(trades); }, wait);
+                    else renderZoriaTrades(trades);
+                }
+                function retryOrShowEmpty() {
+                    if (attempt < maxRetries) {
+                        setTimeout(function() { fetchZoriaTrades(attempt + 1); }, retryDelayMs);
+                    } else {
+                        showResult([]);
+                    }
+                }
+                fetch('https://api.geckoterminal.com/api/v2/networks/bsc/pools/' + ZORIA_GEcko_POOL + '/trades')
+                    .then(function(r) { return r.json(); })
+                    .then(function(res) {
+                        if (res && res.data && Array.isArray(res.data) && res.data.length > 0) {
+                            showResult(res.data);
+                        } else {
+                            retryOrShowEmpty();
+                        }
+                    })
+                    .catch(function(err) {
+                        retryOrShowEmpty();
+                    });
+            }
+
+            function fetchZoriaDashboard() {
+                fetch('https://api.dexscreener.com/latest/dex/tokens/' + ZORIA_TOKEN)
+                    .then(function(r) { return r.json(); })
+                    .then(function(data) {
+                        if (data.pairs && data.pairs.length) updateZoriaDashboard(data);
+                    })
+                    .catch(function() {
+                        fetch('https://api.dexscreener.com/latest/dex/pairs/bsc/' + ZORIA_PAIR)
+                            .then(function(r) { return r.json(); })
+                            .then(function(data) { if (data.pair) updateZoriaDashboard({ pair: data.pair }); });
+                    });
+            }
+
+            (function initZoriaContractCopy() {
+                var contractEl = document.getElementById('zoriaContractAddress');
+                var copyBtn = document.getElementById('zoriaContractCopy');
+                function copyZoriaContract() {
+                    var addr = (contractEl && contractEl.textContent) ? contractEl.textContent.trim() : '';
+                    if (!addr) return;
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(addr).then(function() {
+                            if (copyBtn) {
+                                var t = copyBtn.querySelector('.zoria-copy-text');
+                                if (t) { t.textContent = 'Copied!'; }
+                                copyBtn.classList.add('copied');
+                                setTimeout(function() {
+                                    if (t) t.textContent = 'Copy';
+                                    copyBtn.classList.remove('copied');
+                                }, 2000);
+                            }
+                        });
+                    }
+                }
+                if (contractEl) contractEl.addEventListener('click', copyZoriaContract);
+                if (copyBtn) copyBtn.addEventListener('click', copyZoriaContract);
+            })();
+
+            fetchZoriaDashboard();
+            setInterval(fetchZoriaDashboard, 60000);
+            fetchZoriaTrades();
+            setInterval(fetchZoriaTrades, 30000);
+        });
+    </script>
+</body>
+
+</html>
+

@@ -1,0 +1,10 @@
+RewriteEngine On
+
+# Редирект с .html на без расширения
+RewriteCond %{THE_REQUEST} \s/+(.*)\.html[\s?]
+RewriteRule ^ %1 [R=301,L]
+
+# Открывать .html без указания расширения
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.+)$ $1.html [L]
